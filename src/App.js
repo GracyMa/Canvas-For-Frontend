@@ -28,6 +28,13 @@ function App() {
 
     // Provide reset function and pass to button
     const resetCanvas = () => {
+        // Clear the canvas only when click on rest canvas button
+        const canvas = canvasRef.current;
+        if (canvas) {
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        }
+        // Reset the turtle state
         setTurtleState({
             x: 360,
             y: 200,

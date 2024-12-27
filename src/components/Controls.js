@@ -3,7 +3,7 @@ import React from "react";
 import styles from "../styles";
 import { hexagon, star, square } from "../utils/pattern";
 
-function Controls({ turtleState, setTurtleState, canvasRef }) {
+function Controls({ turtleState, setTurtleState }) {
     const moveTurtle = (direction, length = 50) => {
         setTurtleState((prevState) => {
             const { x, y } = prevState;
@@ -22,27 +22,31 @@ function Controls({ turtleState, setTurtleState, canvasRef }) {
         });
     };
 
-    const drawShape = (shape) => {
-        const ctx = canvasRef.current?.getContext("2d"); // Safely access canvas context
-        if (!ctx) {
-            console.error("Canvas context is not available.");
-            return;
-        }
-        const { x, y, angle } = turtleState;
+    // Turtle object for drawing shapes
+    const turtle = {
+        forward: (length, ctx) => {
+            const angleInRadians = (turtleState.angle * Math.PI) / 180;
 
-        switch (shape) {
-            case "hexagon":
-                hexagon(ctx, x, y, angle);
-                break;
-            case "star":
-                star(ctx, x, y, angle);
-                break;
-            case "square":
-                square(ctx, x, y, angle);
-                break;
-            default:
-                break;
-        }
+            const newX = turtleState.x + length * Math.sin(angleInRadians);
+            const newY = turtleState.y - length * Math.cos(angleInRadians);
+
+            if (turtleState.penDown) {
+                // Draw a line from the current position to the new position
+                ctx.beginPath(); // Start a new path (only for this line)
+                ctx.moveTo(turtleState.x, turtleState.y);
+                ctx.lineTo(newX, newY);
+                ctx.strokeStyle = turtleState.penColor;
+                ctx.lineWidth = turtleState.lineWidth;
+                ctx.stroke(); // Render the line
+            }
+
+            // Update the turtle's position without resetting the canvas
+            turtleState.x = newX;
+            turtleState.y = newY;
+        },
+        left: (angle) => {
+            turtleState.angle += angle; // Update the turtle's angle
+        },
     };
 
     return (
@@ -62,27 +66,33 @@ function Controls({ turtleState, setTurtleState, canvasRef }) {
                     ShiftDown
                 </button>
             </div>
-            <h4 style={{ margin: "12px 0 0" }}>DRAW SHAPES</h4>
-            <div style={{ ...styles.row, maxWidth: "100%" }}>
-                {/* Hexagon Button */}
+            <div style={styles.row}>
                 <button
-                    onClick={() => drawShape("hexagon")}
+                    onClick={() => {
+                        const canvas = document.getElementById("myDrawing");
+                        const ctx = canvas.getContext("2d");
+                        hexagon(turtle, ctx); // Draw a hexagon
+                    }}
                     style={styles.blueButton}
                 >
                     Hexagon
                 </button>
-
-                {/* Star Button */}
                 <button
-                    onClick={() => drawShape("star")}
+                    onClick={() => {
+                        const canvas = document.getElementById("myDrawing");
+                        const ctx = canvas.getContext("2d");
+                        star(turtle, ctx); // Draw a star
+                    }}
                     style={styles.blueButton}
                 >
                     Star
                 </button>
-
-                {/* Square Button */}
                 <button
-                    onClick={() => drawShape("square")}
+                    onClick={() => {
+                        const canvas = document.getElementById("myDrawing");
+                        const ctx = canvas.getContext("2d");
+                        square(turtle, ctx); // Draw a square
+                    }}
                     style={styles.blueButton}
                 >
                     Square
