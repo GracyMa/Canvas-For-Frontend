@@ -27,8 +27,11 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "konva": "^9.3.18",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
+    "react-konva": "^18.2.9",
     "react-scripts": "5.0.1"
   },
   "browserslist": {

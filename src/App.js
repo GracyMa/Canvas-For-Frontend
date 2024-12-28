@@ -4,6 +4,8 @@ import Header from "./components/Header";
 import Canvas from "./components/Canvas";
 import Controls from "./components/Controls";
 import styles from "./styles";
+import { useKonvaCanvasHandlers } from "./components/KonvaCanvas";
+import { DrawAction } from "./utils/konvaConstants"; 
 
 function App() {
     // Enum for canvas sizes
@@ -26,14 +28,30 @@ function App() {
     const [size, setSize] = useState("small");
     const canvasRef = useRef(null);
 
+    // Konva-specific state
+    const [drawAction, setDrawAction] = useState(DrawAction.RECTANGLE); // Default to RECTANGLE
+    const [shapes, setShapes] = useState([]); // Stores drawn shapes
+
+    // Import handlers from KonvaCanvas
+    const {
+        handleMouseDown,
+        handleMouseMove,
+        handleMouseUp,
+    } = useKonvaCanvasHandlers({
+        drawAction,
+        onShapesUpdate: setShapes,
+    });
+
     // Provide reset function and pass to button
     const resetCanvas = () => {
-        // Clear the canvas only when click on rest canvas button
+        // Clear the canvas only when click on reset canvas button
         const canvas = canvasRef.current;
         if (canvas) {
             const ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height); 
         }
+        // Clear shapes
+        setShapes([]);
         // Reset the turtle state
         setTurtleState({
             x: 360,
@@ -57,12 +75,31 @@ function App() {
                 size={size} 
                 sizeEnum={sizeEnum} 
                 turtleState={turtleState} 
-                canvasRef={canvasRef} />
+                canvasRef={canvasRef}
+                shapes={shapes}
+                handleMouseDown={handleMouseDown}
+                handleMouseMove={handleMouseMove}
+                handleMouseUp={handleMouseUp} 
+            />
             <Controls
                 turtleState={turtleState}
                 setTurtleState={setTurtleState}
-                canvasRef={canvasRef} // Pass canvasRef here
+                canvasRef={canvasRef}
             />
+            <div>
+                <button 
+                    onClick={() => setDrawAction(DrawAction.RECTANGLE)} 
+                    style={styles.button}
+                >
+                    Rectangle
+                </button>
+                <button 
+                    onClick={() => setDrawAction(DrawAction.CIRCLE)} 
+                    style={styles.button}
+                >
+                    Circle
+                </button>
+            </div>
         </div>
     );
 }

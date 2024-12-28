@@ -46,3 +46,5 @@
     useRef: https://www.youtube.com/watch?v=42BkpGe8oxg&ab_channel=CosdenSolutions
     Canvas: https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API
     Konva: https://github.com/konvajs/react-konva
+           https://konvajs.org/docs/overview.html
+           https://www.youtube.com/watch?v=iUm2wHHel4s&ab_channel=UsmanAbdurRehman
