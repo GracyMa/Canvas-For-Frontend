@@ -29,14 +29,15 @@ function App() {
     const canvasRef = useRef(null);
 
     // Konva-specific state
-    const [drawAction, setDrawAction] = useState(DrawAction.RECTANGLE); // Default to RECTANGLE
-    const [shapes, setShapes] = useState([]); // Stores drawn shapes
+    const [drawAction, setDrawAction] = useState(DrawAction.RECTANGLE); // Default to rectangle
+    const [shapes, setShapes] = useState([]); // Stores finalized shapes
 
     // Import handlers from KonvaCanvas
     const {
         handleMouseDown,
         handleMouseMove,
         handleMouseUp,
+        currentShape, // Current shape being drawn
     } = useKonvaCanvasHandlers({
         drawAction,
         onShapesUpdate: setShapes,
@@ -77,6 +78,7 @@ function App() {
                 turtleState={turtleState} 
                 canvasRef={canvasRef}
                 shapes={shapes}
+                currentShape={currentShape} // Pass currentShape for real-time rendering
                 handleMouseDown={handleMouseDown}
                 handleMouseMove={handleMouseMove}
                 handleMouseUp={handleMouseUp} 

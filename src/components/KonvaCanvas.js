@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DrawAction } from "../utils/konvaConstants";
 
 function useKonvaCanvasHandlers({ drawAction, onShapesUpdate }) {
-    const [currentShape, setCurrentShape] = useState(null);
+    const [currentShape, setCurrentShape] = useState(null); 
 
     const handleMouseDown = (e) => {
         const { offsetX, offsetY } = e.nativeEvent;
@@ -40,7 +40,7 @@ function useKonvaCanvasHandlers({ drawAction, onShapesUpdate }) {
 
         const { offsetX, offsetY } = e.nativeEvent;
         
-        //// Update the shape properties based on its type
+        // Update the shape properties based on its type
         switch (currentShape.type) {
             case DrawAction.RECTANGLE:
                 setCurrentShape((prev) => ({
@@ -74,6 +74,7 @@ function useKonvaCanvasHandlers({ drawAction, onShapesUpdate }) {
         handleMouseDown, // Start drawing
         handleMouseMove, // Update drawing
         handleMouseUp,   // Finalize drawing
+        currentShape,    // Expose the current shape for real-time drawing
     };
 }
 

@@ -10,6 +10,7 @@ function Canvas({
     sizeEnum,
     canvasRef,
     shapes,
+    currentShape,
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
@@ -34,8 +35,16 @@ function Canvas({
                     drawCircle(ctx, shape);
                 }
             });
+            // Draw the current shape being drawn，ensures real-time visual feedback for the user while drawing
+            if (currentShape) {
+                if (currentShape.type === DrawAction.RECTANGLE) {
+                    drawRectangle(ctx, currentShape, false); // 使用边框绘制
+                } else if (currentShape.type === DrawAction.CIRCLE) {
+                    drawCircle(ctx, currentShape, false); // 使用边框绘制
+                }
+            }
         }
-    }, [shapes]); // Re-run when shapes change
+    }, [shapes, currentShape]); // 将 currentShape 添加为依赖项 // Re-run when shapes change
 
     return (
         <div
