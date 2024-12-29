@@ -38,13 +38,13 @@ function Canvas({
             // Draw the current shape being drawn，ensures real-time visual feedback for the user while drawing
             if (currentShape) {
                 if (currentShape.type === DrawAction.RECTANGLE) {
-                    drawRectangle(ctx, currentShape, false); // 使用边框绘制
+                    drawRectangle(ctx, currentShape, false); 
                 } else if (currentShape.type === DrawAction.CIRCLE) {
-                    drawCircle(ctx, currentShape, false); // 使用边框绘制
+                    drawCircle(ctx, currentShape, false); 
                 }
             }
         }
-    }, [shapes, currentShape]); // 将 currentShape 添加为依赖项 // Re-run when shapes change
+    }, [shapes, currentShape]); // Re-run when shapes change
 
     return (
         <div
