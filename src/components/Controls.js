@@ -3,27 +3,32 @@ import React, { useEffect } from "react";
 import styles from "../styles";
 import { hexagon, star, square } from "../utils/pattern";
 
-function Controls({ turtleState, setTurtleState, canvasRef, onShapesUpdate }) {
+function Controls({ turtleState, setTurtleState, canvasRef, onShapesUpdate, sizeEnum, size }) {
     const moveTurtle = (direction, length = 50) => {
         let newX = turtleState.x;
         let newY = turtleState.y;
 
+        // Canvas dimensions
+        const canvasWidth = sizeEnum[size][0];
+        const canvasHeight = sizeEnum[size][1];
+
         switch (direction) {
             case "left":
-                newX -= length;
+                newX = Math.max(0, newX - length);
                 break;
             case "right":
-                newX += length;
+                newX = Math.min(canvasWidth, newX + length);
                 break;
             case "up":
-                newY -= length;
+                newY = Math.max(0, newY - length);
                 break;
             case "down":
-                newY += length;
+                newY = Math.min(canvasHeight, newY + length);
                 break;
             default:
                 break;
         }
+
 
         setTurtleState({
             ...turtleState,

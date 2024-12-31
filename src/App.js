@@ -88,6 +88,8 @@ function App() {
                 setTurtleState={setTurtleState}
                 canvasRef={canvasRef}
                 onShapesUpdate={setShapes}
+                sizeEnum={sizeEnum} // Add sizeEnum
+                size={size} // Add size
             />
             <div>
                 <button 
