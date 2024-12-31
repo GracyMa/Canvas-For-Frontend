@@ -87,6 +87,7 @@ function App() {
                 turtleState={turtleState}
                 setTurtleState={setTurtleState}
                 canvasRef={canvasRef}
+                onShapesUpdate={setShapes}
             />
             <div>
                 <button 

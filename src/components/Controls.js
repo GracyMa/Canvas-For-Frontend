@@ -3,9 +3,8 @@ import React, { useEffect } from "react";
 import styles from "../styles";
 import { hexagon, star, square } from "../utils/pattern";
 
-function Controls({ turtleState, setTurtleState, canvasRef }) {
+function Controls({ turtleState, setTurtleState, canvasRef, onShapesUpdate }) {
     const moveTurtle = (direction, length = 50) => {
-        // Calculate the new position based on the direction
         let newX = turtleState.x;
         let newY = turtleState.y;
 
@@ -26,7 +25,6 @@ function Controls({ turtleState, setTurtleState, canvasRef }) {
                 break;
         }
 
-        // Update Turtle location
         setTurtleState({
             ...turtleState,
             x: newX,
@@ -34,7 +32,26 @@ function Controls({ turtleState, setTurtleState, canvasRef }) {
         });
     };
 
-    // Keyboard event listening, also call moveTurtle to update location
+    // Add predefined shapes to the shapes state
+    const drawPredefinedShape = (shapeFunction, type) => {
+        const canvas = canvasRef.current;
+        const ctx = canvas?.getContext("2d");
+        if (!ctx || !canvas) return;
+
+        // Add predefined shape to shapes array
+        const newShape = {
+            type, 
+            x: turtleState.x,
+            y: turtleState.y,
+            angle: turtleState.angle,
+            color: turtleState.penColor,
+            lineWidth: turtleState.lineWidth,
+            length: 50, 
+        };
+        shapeFunction(newShape, ctx);
+        onShapesUpdate((prevShapes) => [...prevShapes, newShape]);
+    };
+
     useEffect(() => {
         const handleKeyDown = (event) => {
             switch (event.key) {
@@ -54,10 +71,10 @@ function Controls({ turtleState, setTurtleState, canvasRef }) {
                     break;
             }
         };
-        //// Attach the event listener for keyboard events
-        window.addEventListener("keydown", handleKeyDown);
+    // Attach the event listener for keyboard events
+    window.addEventListener("keydown", handleKeyDown);
 
-        // Cleanup the event listener when the component unmounts
+    // Cleanup the event listener when the component unmounts
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [turtleState]);
 
@@ -80,31 +97,19 @@ function Controls({ turtleState, setTurtleState, canvasRef }) {
             </div>
             <div style={styles.row}>
                 <button
-                    onClick={() => {
-                        const canvas = canvasRef.current;
-                        const ctx = canvas?.getContext("2d");
-                        hexagon(turtleState, ctx);
-                    }}
+                    onClick={() => drawPredefinedShape(hexagon, "hexagon")}
                     style={styles.blueButton}
                 >
                     Hexagon
                 </button>
                 <button
-                    onClick={() => {
-                        const canvas = canvasRef.current;
-                        const ctx = canvas?.getContext("2d");
-                        star(turtleState, ctx);
-                    }}
+                    onClick={() => drawPredefinedShape(star, "star")}
                     style={styles.blueButton}
                 >
                     Star
                 </button>
                 <button
-                    onClick={() => {
-                        const canvas = canvasRef.current;
-                        const ctx = canvas?.getContext("2d");
-                        square(turtleState, ctx);
-                    }}
+                    onClick={() => drawPredefinedShape(square, "square")}
                     style={styles.blueButton}
                 >
                     Square

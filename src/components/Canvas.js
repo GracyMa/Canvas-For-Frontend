@@ -2,7 +2,8 @@
 import React, { useEffect } from "react";
 import styles from "../styles";
 import { drawRectangle, drawCircle } from "../utils/konvaShapes";
-import { DrawAction } from "../utils/konvaConstants"; // 引入 DrawAction 枚举
+import { DrawAction } from "../utils/konvaConstants";
+import { hexagon, star, square } from "../utils/pattern";
 
 function Canvas({
     size,
@@ -18,33 +19,45 @@ function Canvas({
     const width = sizeEnum[size][0];
     const height = sizeEnum[size][1];
 
-    // Draw shapes on canvas
     useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas) {
             const ctx = canvas.getContext("2d");
 
-            // Clear the entire canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Redraw all shapes from the shapes array
-            shapes.forEach((shape) => {
-                if (shape.type === DrawAction.RECTANGLE) {
+            // Iterate through shapes and draw them
+        shapes.forEach((shape) => {
+            switch (shape.type) {
+                case "hexagon":
+                    hexagon(shape, ctx);
+                    break;
+                case "star":
+                    star(shape, ctx);
+                    break;
+                case "square":
+                    square(shape, ctx);
+                    break;
+                case DrawAction.RECTANGLE:
                     drawRectangle(ctx, shape);
-                } else if (shape.type === DrawAction.CIRCLE) {
+                    break;
+                case DrawAction.CIRCLE:
                     drawCircle(ctx, shape);
-                }
-            });
-            // Draw the current shape being drawn，ensures real-time visual feedback for the user while drawing
+                    break;
+                default:
+                    break;
+            }
+        });
+
             if (currentShape) {
                 if (currentShape.type === DrawAction.RECTANGLE) {
-                    drawRectangle(ctx, currentShape, false); 
+                    drawRectangle(ctx, currentShape, false);
                 } else if (currentShape.type === DrawAction.CIRCLE) {
-                    drawCircle(ctx, currentShape, false); 
+                    drawCircle(ctx, currentShape, false);
                 }
             }
         }
-    }, [shapes, currentShape]); // Re-run when shapes change
+    }, [shapes, currentShape]);
 
     return (
         <div
@@ -62,7 +75,6 @@ function Canvas({
                     transform: `rotate(${turtleState.angle}deg)`,
                 }}
             />
-
             <canvas
                 ref={canvasRef}
                 id="myDrawing"
