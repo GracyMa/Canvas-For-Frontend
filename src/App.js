@@ -27,10 +27,27 @@ function App() {
     });
     const [size, setSize] = useState("small");
     const canvasRef = useRef(null);
-
-    // Konva-specific state
     const [drawAction, setDrawAction] = useState(DrawAction.RECTANGLE); // Default to rectangle
     const [shapes, setShapes] = useState([]); // Stores finalized shapes
+    const [isTextMode, setIsTextMode] = useState(false);
+
+    const enableTextMode = () => {
+        setIsTextMode(true);
+    };
+
+    const addText = (text, x, y) => {
+        setShapes((prevShapes) => [
+            ...prevShapes,
+            {
+                type: "text",
+                x,
+                y,
+                text,
+                color: turtleState.penColor,
+                font: "16px Arial",
+            },
+        ]);
+    };
 
     // Import handlers from KonvaCanvas
     const {
@@ -81,7 +98,10 @@ function App() {
                 currentShape={currentShape} // Pass currentShape for real-time rendering
                 handleMouseDown={handleMouseDown}
                 handleMouseMove={handleMouseMove}
-                handleMouseUp={handleMouseUp} 
+                handleMouseUp={handleMouseUp}
+                addText={addText}
+                isTextMode={isTextMode}
+                setIsTextMode={setIsTextMode} 
             />
             <Controls
                 turtleState={turtleState}
@@ -103,6 +123,9 @@ function App() {
                     style={styles.button}
                 >
                     Circle
+                </button>
+                <button onClick={enableTextMode} style={styles.button}>
+                    Add Text
                 </button>
             </div>
         </div>

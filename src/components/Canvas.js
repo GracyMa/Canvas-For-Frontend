@@ -15,6 +15,9 @@ function Canvas({
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
+    addText,
+    isTextMode,
+    setIsTextMode,
 }) {
     const width = sizeEnum[size][0];
     const height = sizeEnum[size][1];
@@ -44,6 +47,11 @@ function Canvas({
                 case DrawAction.CIRCLE:
                     drawCircle(ctx, shape);
                     break;
+                case "text":
+                    ctx.font = shape.font || "16px Arial";
+                    ctx.fillStyle = shape.color || "#000000";
+                    ctx.fillText(shape.text, shape.x, shape.y);
+                    break;
                 default:
                     break;
             }
@@ -58,6 +66,23 @@ function Canvas({
             }
         }
     }, [shapes, currentShape]);
+
+    const handleCanvasClick = (event) => {
+        if (isTextMode) {
+            const canvas = canvasRef.current;
+            if (!canvas) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            const text = prompt("Enter your text:");
+            if (text) {
+                addText(text, x, y);
+            }
+            setIsTextMode(false);
+        }
+    };
 
     return (
         <div
@@ -80,6 +105,7 @@ function Canvas({
                 id="myDrawing"
                 width={width}
                 height={height}
+                onClick={handleCanvasClick} // Add click event for text input
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
