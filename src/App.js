@@ -5,7 +5,7 @@ import Canvas from "./components/Canvas";
 import Controls from "./components/Controls";
 import styles from "./styles";
 import { useKonvaCanvasHandlers } from "./components/KonvaCanvas";
-import { DrawAction } from "./utils/konvaConstants"; 
+import { DrawAction } from "./utils/konvaConstants";
 
 function App() {
     // Enum for canvas sizes
@@ -29,25 +29,9 @@ function App() {
     const canvasRef = useRef(null);
     const [drawAction, setDrawAction] = useState(DrawAction.RECTANGLE); // Default to rectangle
     const [shapes, setShapes] = useState([]); // Stores finalized shapes
-    const [isTextMode, setIsTextMode] = useState(false);
+    const [isTextMode, setIsTextMode] = useState(false); // Text mode toggle
 
-    const enableTextMode = () => {
-        setIsTextMode(true);
-    };
 
-    const addText = (text, x, y) => {
-        setShapes((prevShapes) => [
-            ...prevShapes,
-            {
-                type: "text",
-                x,
-                y,
-                text,
-                color: turtleState.penColor,
-                font: "16px Arial",
-            },
-        ]);
-    };
 
     // Import handlers from KonvaCanvas
     const {
@@ -66,7 +50,7 @@ function App() {
         const canvas = canvasRef.current;
         if (canvas) {
             const ctx = canvas.getContext("2d");
-            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
         // Clear shapes
         setShapes([]);
@@ -81,6 +65,7 @@ function App() {
         });
     };
 
+
     return (
         <div style={styles.column}>
             {/* Pass sizeEnum to Header */}
@@ -89,19 +74,18 @@ function App() {
                 Reset Canvas
             </button>
             {/* Pass sizeEnum to Canvas */}
-            <Canvas 
-                size={size} 
-                sizeEnum={sizeEnum} 
-                turtleState={turtleState} 
+            <Canvas
+                size={size}
+                sizeEnum={sizeEnum}
+                turtleState={turtleState}
                 canvasRef={canvasRef}
                 shapes={shapes}
                 currentShape={currentShape} // Pass currentShape for real-time rendering
                 handleMouseDown={handleMouseDown}
                 handleMouseMove={handleMouseMove}
                 handleMouseUp={handleMouseUp}
-                addText={addText}
-                isTextMode={isTextMode}
-                setIsTextMode={setIsTextMode} 
+                setShapes={setShapes} // Pass setShapes to Canvas
+                isTextMode={isTextMode} // Pass text mode state
             />
             <Controls
                 turtleState={turtleState}
@@ -112,19 +96,31 @@ function App() {
                 size={size} // Add size
             />
             <div>
-                <button 
-                    onClick={() => setDrawAction(DrawAction.RECTANGLE)} 
+                <button
+                    onClick={() => {
+                        setDrawAction(DrawAction.RECTANGLE);
+                        setIsTextMode(false); // Disable text mode when drawing shapes
+                    }}
                     style={styles.button}
                 >
                     Rectangle
                 </button>
-                <button 
-                    onClick={() => setDrawAction(DrawAction.CIRCLE)} 
+                <button
+                    onClick={() => {
+                        setDrawAction(DrawAction.CIRCLE);
+                        setIsTextMode(false); 
+                    }}
                     style={styles.button}
                 >
                     Circle
                 </button>
-                <button onClick={enableTextMode} style={styles.button}>
+                <button
+                    onClick={() => {
+                        setIsTextMode(true); // Enable text mode
+                        setDrawAction(null); // Disable shape drawing
+                    }}
+                    style={styles.button}
+                >
                     Add Text
                 </button>
             </div>
