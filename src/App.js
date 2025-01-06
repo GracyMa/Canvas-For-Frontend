@@ -5,6 +5,7 @@ import Canvas from "./components/Canvas";
 import Controls from "./components/Controls";
 import styles from "./styles";
 import { useKonvaCanvasHandlers } from "./components/KonvaCanvas";
+import { usePenDrawingHandlers } from "./utils/PenDrawingHandler";
 import { DrawAction } from "./utils/konvaConstants";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
     const [drawAction, setDrawAction] = useState(DrawAction.RECTANGLE); // Default to rectangle
     const [shapes, setShapes] = useState([]); // Stores finalized shapes
     const [isTextMode, setIsTextMode] = useState(false); // Text mode toggle
+    const [penColor, setPenColor] = useState("#000000"); // Default pen color
 
 
 
@@ -42,6 +44,13 @@ function App() {
     } = useKonvaCanvasHandlers({
         drawAction,
         onShapesUpdate: setShapes,
+    });
+
+    const penHandlers = usePenDrawingHandlers({
+        canvasRef,
+        setShapes,
+        drawAction,
+        penColor,
     });
 
     // Provide reset function and pass to button
@@ -81,11 +90,23 @@ function App() {
                 canvasRef={canvasRef}
                 shapes={shapes}
                 currentShape={currentShape} // Pass currentShape for real-time rendering
-                handleMouseDown={handleMouseDown}
-                handleMouseMove={handleMouseMove}
-                handleMouseUp={handleMouseUp}
+                // handleMouseDown={handleMouseDown}
+                // handleMouseMove={handleMouseMove}
+                // handleMouseUp={handleMouseUp}
                 setShapes={setShapes} // Pass setShapes to Canvas
                 isTextMode={isTextMode} // Pass text mode state
+                handleMouseDown={(e) => {
+                    penHandlers.handleMouseDown(e);
+                    handleMouseDown(e);
+                }}
+                handleMouseMove={(e) => {
+                    penHandlers.handleMouseMove(e);
+                    handleMouseMove(e);
+                }}
+                handleMouseUp={(e) => {
+                    penHandlers.handleMouseUp(e);
+                    handleMouseUp(e);
+                }}
             />
             <Controls
                 turtleState={turtleState}
@@ -123,6 +144,21 @@ function App() {
                 >
                     Add Text
                 </button>
+                <button
+                    onClick={() => {
+                        setDrawAction("pen");
+                        setIsTextMode(false); 
+                    }}
+                    style={styles.button}
+                >
+                    Pen
+                </button>
+                <input
+                    type="color"
+                    value={penColor}
+                    onChange={(e) => setPenColor(e.target.value)}
+                    style={styles.colorPicker}
+                />
             </div>
         </div>
     );

@@ -48,3 +48,7 @@
     Konva: https://github.com/konvajs/react-konva
            https://konvajs.org/docs/overview.html
            https://www.youtube.com/watch?v=iUm2wHHel4s&ab_channel=UsmanAbdurRehman
+    Text Input: https://stackoverflow.com/questions/21011931/how-to-embed-an-input-or-textarea-in-a-canvas-element
+                https://konvajs.org/docs/shapes/Text.html
+                https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_text
+    Pen Drawing: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineTo

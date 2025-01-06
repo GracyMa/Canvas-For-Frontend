@@ -52,6 +52,16 @@ function Canvas({
                         ctx.fillStyle = shape.color || "#000000";
                         ctx.fillText(shape.text, shape.x, shape.y);
                         break;
+                        case "pen": // Handle pen paths
+                        ctx.strokeStyle = shape.color;
+                        ctx.lineWidth = shape.lineWidth || 2;
+                        ctx.beginPath();
+                        shape.path.forEach(([x, y], index) => {
+                            if (index === 0) ctx.moveTo(x, y);
+                            else ctx.lineTo(x, y);
+                        });
+                        ctx.stroke();
+                        break;
                     default:
                         break;
                 }
