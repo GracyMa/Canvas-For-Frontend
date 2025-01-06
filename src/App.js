@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Header from "./components/Header";
 import Canvas from "./components/Canvas";
 import Controls from "./components/Controls";
@@ -19,8 +19,9 @@ function App() {
 
     // Manages Shared State
     const [turtleState, setTurtleState] = useState({
-        x: 360,
-        y: 200,
+        // Calculating the center point of the canvas
+        x: sizeEnum.small[0] / 2, // retrieves width
+        y: sizeEnum.small[1] / 2, // retrieves height
         angle: 0,
         penDown: true,
         penColor: "#000000",
@@ -52,6 +53,14 @@ function App() {
         drawAction,
         penColor,
     });
+    // Dynamically update the turtle position when the size changes
+    useEffect(() => {
+        setTurtleState((prev) => ({
+            ...prev,
+            x: sizeEnum[size][0] / 2,
+            y: sizeEnum[size][1] / 2,
+        }));
+    }, [size]);
 
     // Provide reset function and pass to button
     const resetCanvas = () => {
@@ -65,8 +74,8 @@ function App() {
         setShapes([]);
         // Reset the turtle state
         setTurtleState({
-            x: 360,
-            y: 200,
+            x: sizeEnum[size][0] / 2,
+            y: sizeEnum[size][1] / 2,
             angle: 0,
             penDown: true,
             penColor: "#000000",
