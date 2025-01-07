@@ -5,19 +5,21 @@ export const handleTextInput = ({
     hasInput, // State to track if an input box is already active
   }) => {
     return (e) => {
-      const { offsetX, offsetY } = e.nativeEvent; // Get mouse position
-  
       if (hasInput) return; // Prevent multiple input boxes from being created
   
       const canvas = canvasRef.current;
       if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect(); // Get the canvas's bounding rectangle
+        const x = e.clientX - rect.left; // Mouse X relative to canvas
+        const y = e.clientY - rect.top; // Mouse Y relative to canvas
   
       // Dynamically create an input box at the mouse position
       const input = document.createElement("input");
       input.type = "text";
       input.style.position = "absolute";
-      input.style.left = `${offsetX + canvas.offsetLeft}px`;
-      input.style.top = `${offsetY + canvas.offsetTop}px`;
+      input.style.left = `${e.clientX}px`;
+      input.style.top = `${e.clientY}px`;
       input.style.font = "14px Arial";
   
       // Use the Enter key to finalize the text input
@@ -26,8 +28,8 @@ export const handleTextInput = ({
           const newText = {
             type: "text",
             text: input.value,
-            x: offsetX,
-            y: offsetY,
+            x: x,
+            y: y,
             font: "14px Arial",
             color: "#000",
           };
