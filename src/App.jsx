@@ -1,12 +1,12 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Header from "./components/Header";
-import Canvas from "./components/Canvas";
-import Controls from "./components/Controls";
-import styles from "./styles";
-import { useKonvaCanvasHandlers } from "./components/KonvaCanvas";
-import { usePenDrawingHandlers } from "./utils/PenDrawingHandler";
-import { DrawAction } from "./utils/konvaConstants";
+import Canvas from "./components/Canvas/Canvas";
+import Controls from "./components/Controls/Controls";
+import styles from "./styles/styles";
+import usePenDrawingHandlers from "./utils/usePenDrawingHandlers";
+import useDrawingHandlers from "./utils/useDrawingHandlers";
+import { DrawAction } from "./utils/constants";
 
 function App() {
     // Enum for canvas sizes
@@ -36,13 +36,12 @@ function App() {
 
 
 
-    // Import handlers from KonvaCanvas
     const {
         handleMouseDown,
         handleMouseMove,
         handleMouseUp,
         currentShape, // Current shape being drawn
-    } = useKonvaCanvasHandlers({
+    } = useDrawingHandlers({
         drawAction,
         onShapesUpdate: setShapes,
     });

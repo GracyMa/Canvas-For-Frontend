@@ -1,9 +1,9 @@
 
 
 import React from "react";
-import { DrawAction } from "../utils/konvaConstants";
+import { DrawAction } from "../utils/constants";
 
-function KonvaControls({ setDrawAction }) {
+function DrawingControls({ setDrawAction }) {
     return (
         <div>
             <button onClick={() => setDrawAction(DrawAction.RECTANGLE)}>
@@ -16,4 +16,4 @@ function KonvaControls({ setDrawAction }) {
     );
 }
 
-export default KonvaControls;
+export default DrawingControls;

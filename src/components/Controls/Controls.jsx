@@ -1,7 +1,7 @@
 
 import React, { useEffect } from "react";
-import styles from "../styles";
-import { hexagon, star, square } from "../utils/pattern";
+import styles from "../../styles/styles";
+import { hexagon, star, square } from "../../utils/pattern";
 
 function Controls({ turtleState, setTurtleState, canvasRef, onShapesUpdate, sizeEnum, size }) {
     const moveTurtle = (direction, length = 50) => {

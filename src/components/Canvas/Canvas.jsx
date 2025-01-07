@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from "react";
-import styles from "../styles";
-import { drawRectangle, drawCircle } from "../utils/konvaShapes";
-import { DrawAction } from "../utils/konvaConstants";
-import { hexagon, star, square } from "../utils/pattern";
-import { handleTextInput } from "../utils/TextInputHandler";
+import styles from "../../styles/styles";
+import { drawRectangle, drawCircle } from "../../utils/shapes";
+import { DrawAction } from "../../utils/constants";
+import { hexagon, star, square } from "../../utils/pattern";
+import useTextInputHandler from "../../utils/useTextInputHandler";
 
 function Canvas({
     size,
@@ -80,7 +80,7 @@ function Canvas({
 
     const handleCanvasClick = (e) => {
         if (isTextMode) {
-            handleTextInput({ canvasRef, setShapes, setHasInput, hasInput })(e);
+            useTextInputHandler({ canvasRef, setShapes, setHasInput, hasInput })(e);
         }
     };
 

@@ -1,4 +1,4 @@
-export const handleTextInput = ({
+export const useTextInputHandler = ({
     canvasRef,
     setShapes,
     setHasInput,
@@ -45,7 +45,9 @@ export const handleTextInput = ({
     };
   };
 
-  {/*
+export default useTextInputHandler;
+
+  /*
 
     document.body.appendChild(input): Adds the input box to the DOM so the user can see it and type text which necessary for user interaction.
 
@@ -53,5 +55,5 @@ export const handleTextInput = ({
 
     These steps are required for dynamic text input, but not for static shape drawing, which directly uses the Canvas API.
 
-  */}
+  */
   

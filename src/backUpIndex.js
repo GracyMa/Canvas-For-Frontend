@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import styles from './styles.js';
+import styles from './styles/styles.js';
 
-// TODO: 这个应该是画布的大小，这样写对吗？Enum is xxxxx
+// TODO: Different size for canvas, is enum a good approach? 
 const sizeEnum = {
     small: [800, 480],
     medium: [1024, 576],
     large: [1280, 720],
     'absolute unit': [1920, 1080],
 };
-// TODO: 这个应该是默认值，但是react的做法是应该把这个设为state的初始值，只用一次
+// TODO: This should be the default value, but using global state for turtle object
+// FIX: Use React state and pass state updates via props to child components
 const turtle = {
     x: 360,
     y: 200,
@@ -51,7 +52,7 @@ function ReactRoot() {
     const [angle, setAngle] = useState(turtle.angle);
 
     // TODO: setInterval is a counter that invoke the callback every 50ms
-    // TODO: 这个是个类监听的玩意儿，但是感觉逻辑好像不太对，容易产生内存泄漏
+    // TODO: Should we keep setInterval? Is this a good approach?
     setInterval(() => {
         setX(turtle.x);
         setY(turtle.y);
@@ -70,6 +71,7 @@ function ReactRoot() {
 
     // check in chrome dev tool
     console.log('turtle X:', turtle.x, ' Y:', turtle.y, ' angle:', turtle.angle);
+    // TODO: hard coded for turtle position, won't dynamically adjust to the canvas size
     const width = sizeEnum[size][0];
     const height = sizeEnum[size][1];
     // const [ width, height ] = sizeEnum[size];
@@ -90,6 +92,7 @@ function ReactRoot() {
                                 key={key}
                                 onClick={() => { setSize(key) }}
                                 style={{
+                                    // TODO: Inline styling
                                     ...styles.button,
                                     backgroundColor: key === size && '#C9C7C5',
                                     cursor: key !== size && 'pointer',
@@ -155,6 +158,7 @@ function ReactRoot() {
                     {/*
                     // ================================================================================
                     //                      Maybe things should go here?
+                    // TODO: Add more shapes and more features
                     // ================================================================================
                     */}
                     <button
@@ -180,6 +184,7 @@ wrapper ? ReactDOM.render(<ReactRoot />, wrapper) : false;
 
 
 // canvas preparation
+// TODO: direct DOM manipulation, good approach?
 const canvas = document.getElementById('myDrawing');
 
 if (canvas && canvas.getContext) { // does the browser support 'canvas'?
@@ -226,11 +231,10 @@ turtle.shiftDown = function (length = 50) {
     turtle.y += length;
 };
 
-let counter = 1;
-const addCounterBy1 = () => counter = counter + 1;
 
 
 // draw in a direction
+//TODO: Figure out how this.ct works
 turtle.forward = function (length) {
     // this.logPenStatus();
     var x0 = this.x,
@@ -273,6 +277,7 @@ turtle.right = function (angle) {
 //                      Pattern Functions
 // ===============================================================
 
+// TODO: Similar drawing logic, abstract common logic into reusable function
 turtle.hexagon = function (length = 50) {
     console.log('length', length);
     var i;
@@ -303,8 +308,11 @@ TODO:
 2. should take key down event (keyboard direction can also move the turtle)
 html mouse event
 3. try to see if we can do a pen-like-feature
-4. add a few ones (squares, arrow (no pointer, single-arrow, double-arrow), colors)
-5. text input
+4. add a few ones (squares, arrow, drag drawing etc)
+5. text input on canvas
+6. color picker
+7. turtle position according to different canvas size 
+8. create file hierarchy for different use
 */
 
 

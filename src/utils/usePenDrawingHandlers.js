@@ -1,4 +1,4 @@
-export const usePenDrawingHandlers = ({ canvasRef, setShapes, drawAction, penColor }) => {
+const usePenDrawingHandlers = ({ canvasRef, setShapes, drawAction, penColor }) => {
     let penPath = []; // Tracks the current pen stroke path
 
     const handleMouseDown = (e) => {
@@ -50,3 +50,5 @@ export const usePenDrawingHandlers = ({ canvasRef, setShapes, drawAction, penCol
         handleMouseUp,
     };
 };
+
+export default usePenDrawingHandlers;

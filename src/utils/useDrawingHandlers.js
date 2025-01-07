@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { DrawAction } from "../utils/konvaConstants";
+import { useState } from "react";
+import { DrawAction } from "./constants";
 
-function useKonvaCanvasHandlers({ drawAction, onShapesUpdate }) {
+const useDrawingHandlers =({ drawAction, onShapesUpdate }) => {
     const [currentShape, setCurrentShape] = useState(null); 
 
     const handleMouseDown = (e) => {
@@ -78,4 +78,4 @@ function useKonvaCanvasHandlers({ drawAction, onShapesUpdate }) {
     };
 }
 
-export { useKonvaCanvasHandlers };
+export default useDrawingHandlers;
