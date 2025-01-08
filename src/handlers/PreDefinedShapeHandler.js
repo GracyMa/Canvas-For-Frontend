@@ -28,6 +28,7 @@ export const star = (shape, ctx) => {
     ctx.stroke();
 };
 
+// New shapes
 export const square = (shape, ctx) => {
     const { x, y, length, color, lineWidth } = shape;
     ctx.strokeStyle = color;

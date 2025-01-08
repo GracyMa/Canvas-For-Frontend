@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { DrawAction } from "./constants";
+import { DrawAction } from "../utils/constants";
 
-const useDrawingHandlers =({ drawAction, onShapesUpdate }) => {
+const DrawingHandlers =({ drawAction, onShapesUpdate }) => {
     const [currentShape, setCurrentShape] = useState(null); 
 
     const handleMouseDown = (e) => {
@@ -29,9 +29,6 @@ const useDrawingHandlers =({ drawAction, onShapesUpdate }) => {
                     color: "#000000",
                 });
                 break;
-
-            default:
-                console.warn(`Unsupported drawAction: ${drawAction}`);
         }
     };
 
@@ -78,4 +75,4 @@ const useDrawingHandlers =({ drawAction, onShapesUpdate }) => {
     };
 }
 
-export default useDrawingHandlers;
+export default DrawingHandlers;

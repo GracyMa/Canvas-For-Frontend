@@ -1,4 +1,4 @@
-export const useTextInputHandler = ({
+export const handleTextInput = ({
     canvasRef,
     setShapes,
     setHasInput,
@@ -45,7 +45,7 @@ export const useTextInputHandler = ({
     };
   };
 
-export default useTextInputHandler;
+export default handleTextInput;
 
   /*
 
