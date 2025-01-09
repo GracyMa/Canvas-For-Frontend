@@ -4,7 +4,7 @@ import { CanvasStateContext } from "../../context/CanvasStateProvider";
 import { drawRectangle, drawCircle } from "../../handlers/RealTimeShapeHandlers";
 import { hexagon, star, square } from "../../handlers/PreDefinedShapeHandler";
 import { handleTextInput } from "../../handlers/TextHandler";
-import { DrawAction } from "../../utils/constants";
+import { DrawShape } from "../../utils/constants";
 import { usePenDrawingHandlers } from "../../handlers/PenHandler";
 import DrawingHandlers from "../../handlers/DrawingHandlers";
 import Turtle from "./Turtle";
@@ -23,48 +23,45 @@ function Canvas() {
     } = useContext(CanvasStateContext);
 
     // Set local state
-    const [hasInput, setHasInput] = useState(false); 
-
-
+    const [hasInput, setHasInput] = useState(false);
     const width = sizeEnum[size][0];
     const height = sizeEnum[size][1];
+
+    // Handlers for shape drawing logic
     const {
         handleMouseDown,
         handleMouseMove,
         handleMouseUp,
         currentShape,
     } = DrawingHandlers({
-        drawAction,
         onShapesUpdate: setShapes,
     });
-    const penHandlers = usePenDrawingHandlers({
-        canvasRef,
-        setShapes,
-        drawAction,
-    });
-    
+    // Handlers for pen drawing logic
+    const penHandlers = usePenDrawingHandlers();
+
+    // Effect to render the canvas whenever shapes or current shape change
     useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas) {
             const ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 遍历 shapes 数组，渲染每个已完成的形状
+            // Draw each shape from the shapes array
             shapes.forEach((shape) => {
                 switch (shape.type) {
-                    case "hexagon":
+                    case DrawShape.HEXAGON:
                         hexagon(shape, ctx);
                         break;
-                    case "star":
+                    case DrawShape.STAR:
                         star(shape, ctx);
                         break;
-                    case "square":
+                    case DrawShape.SQUARE:
                         square(shape, ctx);
                         break;
-                    case DrawAction.RECTANGLE:
+                    case DrawShape.RECTANGLE:
                         drawRectangle(ctx, shape);
                         break;
-                    case DrawAction.CIRCLE:
+                    case DrawShape.CIRCLE:
                         drawCircle(ctx, shape);
                         break;
                     case "text":
@@ -87,18 +84,18 @@ function Canvas() {
                 }
             });
 
-            // 实时绘制当前形状
+            // Draw the currently active shape for real-time visualization
             if (currentShape) {
-                if (currentShape.type === DrawAction.RECTANGLE) {
+                if (currentShape.type === DrawShape.RECTANGLE) {
                     drawRectangle(ctx, currentShape, false);
-                } else if (currentShape.type === DrawAction.CIRCLE) {
+                } else if (currentShape.type === DrawShape.CIRCLE) {
                     drawCircle(ctx, currentShape, false);
                 }
             }
         }
-    }, [shapes, currentShape]);
+    }, [shapes, currentShape]);// Dependency array ensures re-render only when these change
 
-    // 处理 Canvas 点击事件
+    // Handle click events on the canvas for text input
     const handleCanvasClick = (e) => {
         if (isTextMode) {
             handleTextInput({ canvasRef, setShapes, setHasInput, hasInput })(e);
@@ -115,7 +112,7 @@ function Canvas() {
         >
             <Turtle />
             <canvas
-                ref={canvasRef}
+                ref={canvasRef} // Reference to the canvas DOM element
                 id="myDrawing"
                 width={width}
                 height={height}

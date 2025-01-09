@@ -1,11 +1,11 @@
-const black= '#000000';
-const shadowGrey= '#3E3E3C';
-const slateGrey= '#706E6B';
-const koalaGrey= '#969492';
-const cloudyGrey= '#C9C7C5';
-const silverGrey= '#ECEBEA';
-const shinyGrey= '#FAFAF9';
-const white= '#FFFFFF';
+const black = '#000000';
+const shadowGrey = '#3E3E3C';
+const slateGrey = '#706E6B';
+const koalaGrey = '#969492';
+const cloudyGrey = '#C9C7C5';
+const silverGrey = '#ECEBEA';
+const shinyGrey = '#FAFAF9';
+const white = '#FFFFFF';
 
 const greyScale = [
     black,        // 0
@@ -20,9 +20,9 @@ const greyScale = [
 
 function applyOpacityToHex(hex, opacity) {
     const strippedHex = hex.replace('#', '');
-    const r = parseInt(strippedHex.substring(0,2), 16);
-    const g = parseInt(strippedHex.substring(2,4), 16);
-    const b = parseInt(strippedHex.substring(4,6), 16);
+    const r = parseInt(strippedHex.substring(0, 2), 16);
+    const g = parseInt(strippedHex.substring(2, 4), 16);
+    const b = parseInt(strippedHex.substring(4, 6), 16);
 
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
@@ -125,6 +125,13 @@ const styles = {
         borderTop: '15px solid black',
         marginLeft: -5,
         marginTop: -15,
+    },
+    colorPicker: {
+        margin: "0 10px",
+        width: "30px",
+        height: "30px",
+        border: "none",
+        cursor: "pointer"
     },
 };
 

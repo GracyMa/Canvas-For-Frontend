@@ -1,17 +1,19 @@
-import { useState } from "react";
-import { DrawAction } from "../utils/constants";
+import { useContext, useState } from "react";
+import { DrawShape } from "../utils/constants";
+import { CanvasStateContext } from "../context/CanvasStateProvider";
 
-const DrawingHandlers =({ drawAction, onShapesUpdate }) => {
-    const [currentShape, setCurrentShape] = useState(null); 
+const DrawingHandlers = ({ onShapesUpdate }) => {
+    const { drawAction } = useContext(CanvasStateContext);
+    const [currentShape, setCurrentShape] = useState(null);
 
     const handleMouseDown = (e) => {
         const { offsetX, offsetY } = e.nativeEvent;
-        
+
         // Determine the shape type based on the current drawAction
         switch (drawAction) {
-            case DrawAction.RECTANGLE:
+            case DrawShape.RECTANGLE:
                 setCurrentShape({
-                    type: DrawAction.RECTANGLE,
+                    type: DrawShape.RECTANGLE,
                     x: offsetX,
                     y: offsetY,
                     width: 0,
@@ -20,9 +22,9 @@ const DrawingHandlers =({ drawAction, onShapesUpdate }) => {
                 });
                 break;
 
-            case DrawAction.CIRCLE:
+            case DrawShape.CIRCLE:
                 setCurrentShape({
-                    type: DrawAction.CIRCLE,
+                    type: DrawShape.CIRCLE,
                     x: offsetX,
                     y: offsetY,
                     radius: 0,
@@ -36,10 +38,10 @@ const DrawingHandlers =({ drawAction, onShapesUpdate }) => {
         if (!currentShape) return;
 
         const { offsetX, offsetY } = e.nativeEvent;
-        
+
         // Update the shape properties based on its type
         switch (currentShape.type) {
-            case DrawAction.RECTANGLE:
+            case DrawShape.RECTANGLE:
                 setCurrentShape((prev) => ({
                     ...prev,
                     width: offsetX - prev.x,
@@ -47,7 +49,7 @@ const DrawingHandlers =({ drawAction, onShapesUpdate }) => {
                 }));
                 break;
 
-            case DrawAction.CIRCLE:
+            case DrawShape.CIRCLE:
                 setCurrentShape((prev) => ({
                     ...prev,
                     radius: Math.sqrt(

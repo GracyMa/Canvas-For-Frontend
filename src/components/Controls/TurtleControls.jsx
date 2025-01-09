@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { CanvasStateContext } from "../../context/CanvasStateProvider"; 
+import { CanvasStateContext } from "../../context/CanvasStateProvider";
 import styles from "../../styles/styles";
 
 const MOVE_INCREMENT = 50; // Extracted constant for movement increment

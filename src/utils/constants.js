@@ -7,17 +7,12 @@ export const sizeEnum = {
     absoluteUnit: [1920, 1080],
 };
 
-export const DrawAction = {
+export const DrawShape = {
+
+    HEXAGON: "hexagon",
+    STAR: "star",
+    SQUARE: "square",
     RECTANGLE: "rectangle",
     CIRCLE: "circle",
 };
 
-// export const INITIAL_SHAPE_STATE = {
-//     id: null,
-//     x: 0,
-//     y: 0,
-//     width: 0,
-//     height: 0,
-//     radius: 0,
-//     color: "#000000",
-// };

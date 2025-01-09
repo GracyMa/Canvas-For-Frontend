@@ -4,13 +4,14 @@ import { CanvasStateContext } from "../../context/CanvasStateProvider";
 import { hexagon, star, square } from "../../handlers/PreDefinedShapeHandler";
 
 function ShapeControls() {
-    const { canvasRef, turtleState, setShapes } = useContext(CanvasStateContext);
+  const { canvasRef, turtleState, setShapes } = useContext(CanvasStateContext);
 
-    const drawPredefinedShape = (shapeFunction, type) => {
+  const drawPredefinedShape = (shapeFunction, type) => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!ctx || !canvas) return;
 
+    // Define the new shape properties based on the turtle's current state
     const newShape = {
       type,
       x: turtleState.x,
@@ -22,7 +23,6 @@ function ShapeControls() {
     };
     shapeFunction(newShape, ctx);
     setShapes((prevShapes) => [...prevShapes, newShape]);
-    // onShapesUpdate((prevShapes) => [...prevShapes, newShape]);
   };
 
   return (

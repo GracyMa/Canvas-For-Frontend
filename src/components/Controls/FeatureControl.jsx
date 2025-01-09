@@ -10,10 +10,10 @@ function FeatureControls() {
         setPenColor,
     } = useContext(CanvasStateContext);
 
-    // 激活实时绘制模式
+    // Function to activate specific drawing features or text mode
     const activateFeature = (actionType, isText = false) => {
         setDrawAction(actionType);
-        setIsTextMode(isText);
+        setIsTextMode(isText); // Enable text mode if specified
     };
 
     return (

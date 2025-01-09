@@ -4,7 +4,7 @@ import styles from "../../styles/styles";
 import { CanvasStateContext } from "../../context/CanvasStateProvider";
 
 function Header() {
-    const { size, setSize, sizeEnum, resetCanvas } = useContext(CanvasStateContext);
+    const { size, setSize, sizeEnum } = useContext(CanvasStateContext);
     return (
         <div style={styles.header}>
             <h1 style={styles.ellipseText}>Internship Whitespace</h1>

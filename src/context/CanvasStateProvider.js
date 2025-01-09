@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect, useRef } from "react";
-import { DrawAction, sizeEnum } from "../utils/constants";
+import React, { createContext, useState, useEffect, useRef, useCallback } from "react";
+import { DrawShape, sizeEnum } from "../utils/constants";
 
 // Create context
 export const CanvasStateContext = createContext();
@@ -15,7 +15,7 @@ export const CanvasStateProvider = ({ children }) => {
     });
 
     const [size, setSize] = useState("small");
-    const [drawAction, setDrawAction] = useState(DrawAction.RECTANGLE);
+    const [drawAction, setDrawAction] = useState(DrawShape.RECTANGLE);
     const [shapes, setShapes] = useState([]);
     const [isTextMode, setIsTextMode] = useState(false);
     const [penColor, setPenColor] = useState("#000000");
@@ -31,9 +31,10 @@ export const CanvasStateProvider = ({ children }) => {
             y: sizeEnum[size][1] / 2,
         }));
     }, [size]);
-    
+
     // Clear Canvas function
-    const resetCanvas = () => {
+    // Cache the resetCanvas function with useCallback
+    const resetCanvas = useCallback(() => {
         const canvas = canvasRef.current;
         if (canvas) {
             const ctx = canvas.getContext("2d");
@@ -48,10 +49,10 @@ export const CanvasStateProvider = ({ children }) => {
             penColor: "#000000",
             lineWidth: 2,
         });
-    };
+    }, [size]); // Only recreate resetCanvas if the canvas size changes
 
     return (
-         // Provide state and functions via context
+        // Provide state and functions via context
         <CanvasStateContext.Provider
             value={{
                 size,
@@ -63,11 +64,11 @@ export const CanvasStateProvider = ({ children }) => {
                 setShapes,
                 drawAction,
                 setDrawAction,
-                isTextMode, 
+                isTextMode,
                 setIsTextMode,
-                penColor, 
+                penColor,
                 setPenColor,
-                currentShape, 
+                currentShape,
                 setCurrentShape,
                 resetCanvas,
                 canvasRef,
@@ -77,3 +78,11 @@ export const CanvasStateProvider = ({ children }) => {
         </CanvasStateContext.Provider>
     );
 };
+/* NOTE:
+ Currently, all shared state and features are managed within this single context for simplicity, as the project is relatively small and does not have a large number of states or features.
+
+ In the future, as the project grows and the number of features or states increases, 
+ we can consider splitting the context into multiple contexts (e.g., CanvasToolContext, CanvasFeatureContext) to better separate concerns and improve maintainability.
+ 
+Additionally, if we encounter complex asynchronous operations or require more scalable state management, we may switch to using Redux or Zustand for enhanced control and efficiency.
+ */

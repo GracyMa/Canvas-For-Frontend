@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { CanvasStateContext } from "../context/CanvasStateProvider";
 
-export const usePenDrawingHandlers = ({ canvasRef, setShapes, drawAction }) => {
-    const { penColor } = useContext(CanvasStateContext); // Fetch from context
+export const usePenDrawingHandlers = () => {
+    const { drawAction, penColor, canvasRef, setShapes } = useContext(CanvasStateContext); // Fetch from context
 
     let penPath = []; // Tracks the current pen stroke path
 
