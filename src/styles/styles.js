@@ -65,6 +65,7 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         flexWrap: 'wrap',
+        
     },
     button: {
         height: 32,
@@ -100,7 +101,7 @@ const styles = {
     },
     column: {
         width: '100%',
-        margin: '12px 0 36px',
+        margin: '12px 0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
